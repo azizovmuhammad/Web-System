@@ -12,8 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "roles")

@@ -11,12 +11,12 @@ import java.util.Set;
 @Component
 public class JwtProvider {
 
-    private static Long EXPIRATION_TIME = 5 * 60 * 60 * 1000L;
-    private static String KEY = "ThisKeySecretKeyForJWT";
+    private static final Long EXPIRATION_TIME = 5 * 60 * 60 * 1000L;
+    private static final String KEY = "ThisKeySecretKeyForJWT";
 
     public String generateToken(String username, Set<Role> roles){
 
-        String token = Jwts
+        return Jwts
                 .builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -24,17 +24,15 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS512, KEY)
                 .claim("roles", roles)
                 .compact();
-        return token;
     }
 
     public String getUsername(String token) {
-        String userName = Jwts
+        return Jwts
                 .parser()
                 .setSigningKey(KEY)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-        return userName;
     }
 }
 

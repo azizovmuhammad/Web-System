@@ -1,13 +1,12 @@
 package com.example.registrationsystem.controller;
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import com.example.registrationsystem.dto.RegUserDto;
 import com.example.registrationsystem.service.RoleService;
 import com.example.registrationsystem.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

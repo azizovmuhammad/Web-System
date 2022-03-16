@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Properties;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String senderEmail = "jimmy.sweetk@gmail.com";
@@ -46,8 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfiguration(@Lazy UserService myUserService, @Lazy JwtFilter jwtFilter) {
-        this.userService = myUserService;
+    public SecurityConfiguration(@Lazy UserService userService, @Lazy JwtFilter jwtFilter) {
+        this.userService = userService;
         this.jwtFilter = jwtFilter;
     }
 
