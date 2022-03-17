@@ -37,8 +37,6 @@ public class User extends AbsEntity implements UserDetails {
 
     public User(Set<Role> roles){this.roles = roles;}
 
-
-
     private Boolean accountNonExpired = true;
     private Boolean accountNonLocked = true;
     private Boolean credentialsNonExpired = true;
