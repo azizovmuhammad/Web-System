@@ -1,5 +1,6 @@
 package com.example.registrationsystem.service.impl;
 
+import com.example.registrationsystem.dto.LoginDto;
 import com.example.registrationsystem.dto.RegUserDto;
 import com.example.registrationsystem.dto.response.Response;
 import com.example.registrationsystem.entity.Role;
@@ -10,8 +11,9 @@ import com.example.registrationsystem.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +28,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -40,19 +41,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
 
-
-    public Map<String, String> getErrors(Errors errors) {
-        Map<String, String> errorList = new HashMap<>();
-        for (ObjectError error : errors.getAllErrors()) {
-
-            String code = error.getCode();
-            if(error.getCodes()!= null && error.getCodes().length > 0){
-                code = error.getCodes()[0];
-            }
-            errorList.put(code, error.getDefaultMessage());
-        }
-        return errorList;
-    }
 
     public HttpEntity<?> register(RegUserDto regUserDto) {
 
@@ -88,4 +76,33 @@ public class UserService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByEmail(email);
         return userOptional.orElse(null);
     }
+
+
+    public HttpEntity<?> login(LoginDto dto) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
+        User principal = (User) authenticate.getPrincipal();
+        currentUser = principal;
+        String generatedToken = jwtProvider.generateToken(principal.getEmail(), principal.getRoles());
+        Response response = new Response(true, "Token", generatedToken);
+
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    /**
+     * Return error code and default message set for the validation annotation
+     * @param errors errors
+     * @return map of error code as key, default message as value, e.g. :['Email': 'invalid email address']
+     */
+    public Map<String, String> getErrors(Errors errors) {
+        Map<String, String> errorList = new HashMap<>();
+        for (ObjectError error : errors.getAllErrors()) {
+            String code = error.getCode();
+            if(error.getCodes()!= null && error.getCodes().length > 0){
+                code = error.getCodes()[0];
+            }
+            errorList.put(code, error.getDefaultMessage());
+        }
+        return errorList;
+    }
+
 }

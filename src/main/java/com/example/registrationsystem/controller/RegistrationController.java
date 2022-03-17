@@ -1,5 +1,6 @@
 package com.example.registrationsystem.controller;
 
+import com.example.registrationsystem.dto.LoginDto;
 import com.example.registrationsystem.dto.RegUserDto;
 import com.example.registrationsystem.service.RoleService;
 import com.example.registrationsystem.service.impl.UserService;
@@ -28,6 +29,14 @@ public class RegistrationController {
             return ResponseEntity.status(400).body(userService.getErrors(errors));
         }
         return userService.register(regUserDto);
+    }
+
+    @PostMapping("/auth/login")
+    public HttpEntity<?> login(@Valid @RequestBody LoginDto dto, Errors errors){
+        if (errors.hasErrors()) {
+            return ResponseEntity.status(400).body(userService.getErrors(errors));
+        }
+        return userService.login(dto);
     }
 
 }
