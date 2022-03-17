@@ -2,7 +2,6 @@ package com.example.registrationsystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,7 +16,6 @@ import java.util.List;
 
 @Configuration
 @EnableSwagger2
-@EnableWebMvc
 public class SwaggerConfig {
 
     @Bean
@@ -26,7 +24,7 @@ public class SwaggerConfig {
                 .securityContexts(Collections.singletonList(getContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("uz.group.app"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.registrationsystem"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(metadata());
     }
