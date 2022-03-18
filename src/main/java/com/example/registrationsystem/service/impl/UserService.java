@@ -45,11 +45,12 @@ public class UserService implements UserDetailsService {
     public HttpEntity<?> register(RegUserDto regUserDto) {
 
         Boolean emailExists = null;
-        if (regUserDto != null && regUserDto.getEmail() != null){
-            emailExists = emailExists (regUserDto.getEmail());
+        if(regUserDto != null && regUserDto.getEmail() != null){
+            emailExists = emailExists(regUserDto.getEmail());
         }
-        if (emailExists != null && emailExists)
+        if(emailExists!= null && emailExists)
             return ResponseEntity.status(422).body(new Response(false, "Email is invalid or already taken", regUserDto.getEmail()));
+
         User user = new User();
         user.setFirstname(regUserDto.getFirstname());
         user.setLastname(regUserDto.getLastname());
@@ -67,6 +68,18 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+
+    public HttpEntity<?> login(LoginDto loginDto) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+        User principal = (User) authenticate.getPrincipal();
+        currentUser = principal;
+        String generatedToken = jwtProvider.generateToken(principal.getEmail(), principal.getRoles());
+        Response response = new Response(true, "Token", generatedToken);
+
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+
     private Boolean emailExists(String email) {
         User user = findByEmail(email);
         return user != null;
@@ -78,15 +91,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public HttpEntity<?> login(LoginDto dto) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
-        User principal = (User) authenticate.getPrincipal();
-        currentUser = principal;
-        String generatedToken = jwtProvider.generateToken(principal.getEmail(), principal.getRoles());
-        Response response = new Response(true, "Token", generatedToken);
-
-        return ResponseEntity.status(response.getStatus()).body(response);
-    }
 
     /**
      * Return error code and default message set for the validation annotation

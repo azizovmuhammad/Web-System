@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class RegistrationSystemApplication implements WebMvcConfigurer {
 
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -21,7 +20,6 @@ public class RegistrationSystemApplication implements WebMvcConfigurer {
             }
         };
     }
-
 
     public static void main(String[] args) {
         SpringApplication.run(RegistrationSystemApplication.class, args);

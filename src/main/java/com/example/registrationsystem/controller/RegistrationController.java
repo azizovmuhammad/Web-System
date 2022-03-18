@@ -24,7 +24,7 @@ public class RegistrationController {
     private final RoleService roleService;
 
     @PostMapping("/auth/register")
-    public HttpEntity<?> regiter(@Valid @RequestBody RegUserDto regUserDto, Errors errors){
+    public HttpEntity<?> register(@Valid @RequestBody RegUserDto regUserDto, Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.status(400).body(userService.getErrors(errors));
         }
@@ -32,11 +32,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/auth/login")
-    public HttpEntity<?> login(@Valid @RequestBody LoginDto dto, Errors errors){
+    public HttpEntity<?> login(@Valid @RequestBody LoginDto loginDto, Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.status(400).body(userService.getErrors(errors));
         }
-        return userService.login(dto);
+        return userService.login(loginDto);
     }
 
 }
