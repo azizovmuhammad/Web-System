@@ -52,6 +52,7 @@ public class UserService implements UserDetailsService {
             return ResponseEntity.status(422).body(new Response(false, "Email is invalid or already taken", regUserDto.getEmail()));
 
         User user = new User();
+        assert regUserDto != null;
         user.setFirstname(regUserDto.getFirstname());
         user.setLastname(regUserDto.getLastname());
         user.setEmail(regUserDto.getEmail());

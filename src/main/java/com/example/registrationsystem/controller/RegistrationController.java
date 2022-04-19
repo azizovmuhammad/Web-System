@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -24,7 +25,7 @@ public class RegistrationController {
     private final RoleService roleService;
 
     @PostMapping("/auth/register")
-    public HttpEntity<?> register(@Valid @RequestBody RegUserDto regUserDto, Errors errors){
+    public HttpEntity<?> register(@Valid @RequestBody RegUserDto regUserDto, @ApiIgnore Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.status(400).body(userService.getErrors(errors));
         }
@@ -32,7 +33,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/auth/login")
-    public HttpEntity<?> login(@Valid @RequestBody LoginDto loginDto, Errors errors){
+    public HttpEntity<?> login(@Valid @RequestBody LoginDto loginDto, @ApiIgnore Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.status(400).body(userService.getErrors(errors));
         }
