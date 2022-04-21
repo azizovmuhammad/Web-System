@@ -24,7 +24,6 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     public static Response response;
 
