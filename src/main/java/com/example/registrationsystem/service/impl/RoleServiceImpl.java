@@ -2,6 +2,7 @@ package com.example.registrationsystem.service.impl;
 
 import com.example.registrationsystem.dto.RoleDto;
 import com.example.registrationsystem.dto.response.Response;
+import com.example.registrationsystem.entity.Order;
 import com.example.registrationsystem.entity.Role;
 import com.example.registrationsystem.repository.RoleRepository;
 import com.example.registrationsystem.service.RoleService;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.registrationsystem.service.impl.ProductServiceImpl.response;
 
 @Service
 @RequiredArgsConstructor
@@ -51,9 +54,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findById(Long id) {
+    public HttpEntity<?> findById(Long id) {
         Optional<Role> optionalRole = roleRepository.findById(id);
-        return optionalRole.orElse(null);
+        if (optionalRole.isPresent()){
+            Role role = optionalRole.get();
+            response = new Response(true, "Product", role);
+        }
+        else {
+            response = new Response(false, "Order Not Found With Id [ " + id + " ]");
+        }
+        return ResponseEntity.ok(response);
     }
 
     @Override

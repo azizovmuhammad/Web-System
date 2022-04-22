@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
         else {
             response = new Response(false, "Product", "Product was not found with id {" + id + "}");
         }
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @Override

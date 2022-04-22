@@ -11,7 +11,7 @@ public interface RoleService {
 
     HttpEntity<?> updateRole(RoleDto roleDto, Long id);
 
-    Role findById(Long id);
+    HttpEntity<?> findById(Long id);
 
     HttpEntity<?> findAll(Pageable pageable);
 
