@@ -92,12 +92,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-
-    /**
-     * Return error code and default message set for the validation annotation
-     * @param errors errors
-     * @return map of error code as key, default message as value, e.g. :['Email': 'invalid email address']
-     */
     public Map<String, String> getErrors(Errors errors) {
         Map<String, String> errorList = new HashMap<>();
         for (ObjectError error : errors.getAllErrors()) {

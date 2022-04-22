@@ -50,12 +50,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public HttpEntity<?> update(Long id, OrderDto orderDto) {
-        Product product = new Product();
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isPresent()){
             Order order = optionalOrder.get();
-            order.setQuantity(order.getQuantity());
-            order.setTotalPrice(product.getPrice()* order.getQuantity());
+            order.setQuantity(orderDto.getQuantity());
+            Optional<Product> product = productRepository.findById(orderDto.getProductId());
+            if (product.isPresent()){
+                Product product1 = product.get();
+                order.setTotalPrice(product1.getPrice()* order.getQuantity());
+            }
+            else {
+                response = new Response(false,"Product Not Found With Id [" + orderDto.getProductId() + " ]");
+            }
             Optional<Product> optionalProduct = productRepository.findById(orderDto.getProductId());
             if (optionalProduct.isPresent()){
                 Product product1 = optionalProduct.get();
@@ -85,12 +91,12 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         if (optionalOrder.isPresent()){
             Order order = optionalOrder.get();
-            response = new Response(true, "Product List", order);
+            response = new Response(true, "Product", order);
         }
         else {
-            response = new Response(false, "Order Not Found With Id [" + id + " ]");
+            response = new Response(false, "Order Not Found With Id [ " + id + " ]");
         }
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @Override

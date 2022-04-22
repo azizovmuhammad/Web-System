@@ -28,7 +28,7 @@ public class RoleController {
     }
 
     @GetMapping("/findBYid/{id}")
-    public Role findById(@PathVariable Long id){
+    public HttpEntity<?> findById(@PathVariable Long id){
         return roleService.findById(id);
     }
 

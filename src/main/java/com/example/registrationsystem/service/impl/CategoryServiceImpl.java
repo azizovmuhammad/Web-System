@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
             response = new Response(false,"Category Not Found With Id [" + id + " ]");
         }
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @Override
