@@ -2,9 +2,11 @@ package com.example.registrationsystem.service.impl;
 
 import com.example.registrationsystem.dto.ProductDto;
 import com.example.registrationsystem.dto.response.Response;
+import com.example.registrationsystem.entity.Attachment;
 import com.example.registrationsystem.entity.Category;
 import com.example.registrationsystem.entity.Product;
 import com.example.registrationsystem.entity.User;
+import com.example.registrationsystem.repository.AttachmentRepository;
 import com.example.registrationsystem.repository.CategoryRepository;
 import com.example.registrationsystem.repository.ProductRepository;
 import com.example.registrationsystem.repository.UserRepository;
@@ -25,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final AttachmentRepository attachmentRepository;
     public static Response response;
 
     @Override
@@ -33,6 +36,15 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
+
+        Optional<Attachment> optionalAttachment = attachmentRepository.findById(productDto.getAttachmentId());
+        if (optionalAttachment.isPresent()){
+            Attachment attachment = optionalAttachment.get();
+            product.setAttachment(attachment);
+        }
+        else {
+            response = new Response(false,"Attachment Not Found With Id [" + productDto.getAttachmentId() + " ]");
+        }
 
         Optional<Category> optionalCategory = categoryRepository.findById(productDto.getCategoryId());
         if (optionalCategory.isPresent()){
