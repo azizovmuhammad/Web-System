@@ -17,4 +17,6 @@ public class ProductDto {
 
     private Long categoryId;
 
+    private Long attachmentId;
+
 }
