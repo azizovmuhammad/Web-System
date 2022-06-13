@@ -17,4 +17,8 @@ public interface ProductService {
     HttpEntity<?> getPageable(Pageable pageable);
 
     HttpEntity<?> getAll();
+
+    HttpEntity<?> addFavourite(Long id, Boolean favourite);
+
+    HttpEntity<?> getAllFavourite();
 }

@@ -26,6 +26,8 @@ public class Product extends AbsEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private Boolean favourite = false;
+
     @OneToOne
     private Attachment attachment;
 }

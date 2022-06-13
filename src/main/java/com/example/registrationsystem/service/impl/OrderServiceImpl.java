@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     public static Response response;
