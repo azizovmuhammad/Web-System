@@ -2,6 +2,7 @@ package com.example.registrationsystem.controller;
 
 import com.example.registrationsystem.dto.CategoryDto;
 import com.example.registrationsystem.dto.ProductDto;
+import com.example.registrationsystem.entity.Product;
 import com.example.registrationsystem.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,17 @@ public class ProductController {
     public HttpEntity<?> getAll(){
         return productService.getAll();
     }
+
+    @PutMapping("/addFavourite/{id}")
+    public HttpEntity<?> addFavourite(@PathVariable Long id, @RequestParam Boolean favourite){
+        return productService.addFavourite(id, favourite);
+    }
+
+    @GetMapping("/getAll/favouriteList")
+    public HttpEntity<?> getAllFavourite(){
+        return productService.getAllFavourite();
+    }
+
 
 
 }

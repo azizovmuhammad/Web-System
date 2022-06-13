@@ -121,6 +121,23 @@ public class ProductServiceImpl implements ProductService {
         return ResponseEntity.ok(response);
     }
 
+    @Override
+    public HttpEntity<?> addFavourite(Long id, Boolean favourite) {
+        Product product = findById(id);
+        product.setFavourite(favourite);
+        Product save = productRepository.save(product);
+
+        response = new Response(true, "Product added favourite list", save);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public HttpEntity<?> getAllFavourite() {
+        List<Product> allByFavourite = productRepository.findAllByFavourite();
+        response = new Response(true, "Product List", allByFavourite);
+        return ResponseEntity.ok(response);
+    }
+
     private Product findById(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         return optionalProduct.orElse(null);
