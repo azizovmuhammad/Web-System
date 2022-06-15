@@ -14,8 +14,7 @@ public class Response {
 
     private boolean success;
     private String message;
-    private Object data;
-    private List<Object> dataList;
+    private Object dataList;
     private Map<Object, Object> map = new HashMap<>();
     private HttpStatus status;
 
@@ -27,14 +26,10 @@ public class Response {
             this.status = HttpStatus.OK;
     }
 
-    public Response(boolean success, String message, Object data) {
+    public Response(boolean success, String message, Object dataList) {
         this.success = success;
         this.message = message;
-        if(data instanceof List){
-            this.dataList = (List) data;
-        }else {
-            this.data = data;
-        }
+        this.dataList = dataList;
         if(success)
             this.status = HttpStatus.OK;
     }
